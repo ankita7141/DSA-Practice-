@@ -1,53 +1,51 @@
-#include <stdio.h>
+#include<stdio.h>
+void merge(int arr[],int l,int m,int r){
+    int i=l,j=m+1,k=0;
+    int temp[r-l+1];
+    // Merging the two halves into temp[]
+    while(i<=m && j<=r){
+        if (arr[i]<arr[j]){
+            temp[k++]=arr[i++];
 
-void merge(int arr[], int str, int mid, int end) {
-    int n1 = mid - str + 1;
-    int n2 = end - mid;
+        }
+        else{
+            temp[k++]=arr[j++];
 
-    int left[n1], right[n2];
-
-    for(int i = 0; i < n1; i++)
-        left[i] = arr[str + i];
-    for(int j = 0; j < n2; j++)
-        right[j] = arr[mid + 1 + j];
-
-    int i = 0, j = 0, k = str;
-
-    while(i < n1 && j < n2) {
-        if(left[i] <= right[j]) {
-            arr[k++] = left[i++];
-        } else {
-            arr[k++] = right[j++];
         }
     }
-
-    while(i < n1) {
-        arr[k++] = left[i++];
+    // Copying remaining elements 
+    while(i<=m){
+        temp[k++]=arr[i++];
     }
-
-    while(j < n2) {
-        arr[k++] = right[j++];
+    while(j<=r){
+        temp[k++]=arr[j++];
+    }
+    // Copying back to original array
+    for(i=l,k=0;i<=r;i++,k++){
+        arr[i]=temp[k];
+    }
+}
+    void mergeSort(int arr[],int l,int r){
+    if(l<r){
+        int m=(l+r)/2;
+        mergeSort(arr,l,m);//left half
+        mergeSort(arr,m+1,r);//right half
+        merge(arr,l,m,r);//merging
     }
 }
 
-void merge_sort(int arr[], int str, int end) {
-    if(str < end) {
-        int mid = str + (end - str) / 2;
-        merge_sort(arr, str, mid);
-        merge_sort(arr, mid + 1, end);
-        merge(arr, str, mid, end);
+int main(){
+    int arr[100],n,i;
+    printf("Enter number of elements:");
+    scanf("%d",&n);
+    printf("Enter elements:\n");
+    for(i=1;i<=n;i++){
+        scanf("%d",&arr[i]);
     }
-}
-
-int main() {
-    int arr[6] = {1, 4, 2, 6, 7, 3};
-    int size = 6;
-
-    merge_sort(arr, 0, size - 1);
-
-    for(int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+    mergeSort(arr,1,n);
+    printf("Sorted array:\n");
+    for(i=1;i<=n;i++){
+        printf("%d ",arr[i]);
     }
-
     return 0;
 }

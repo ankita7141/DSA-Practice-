@@ -16,6 +16,7 @@ int partition(int arr[], int str, int end){
             swap(&arr[j], &arr[i]);
         }
     }
+    
 
     i++;
     swap(&arr[end], &arr[i]);
